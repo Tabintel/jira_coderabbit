@@ -11,17 +11,21 @@ from google.oauth2 import id_token
            try:
                request = requests.Request()
                idinfo = id_token.verify_oauth2_token(
-                   token, 
 
-                   request, 
+
+
+                   token,
+                   request,
                    self.client_id
                )
+               
                if idinfo['aud'] != self.client_id:
                    return None
+                   
                return idinfo
            except ValueError:
-               return None
-   
+
+               return None   
        async def refresh_token(self, refresh_token: str) -> Optional[str]:
 try:
                response = requests.post(

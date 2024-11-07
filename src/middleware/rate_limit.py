@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-import time
-from dataclasses import dataclass
+
+from time import timefrom dataclasses import dataclass
 from typing import Dict, List
 @dataclass
 class RateLimitConfig:
