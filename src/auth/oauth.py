@@ -11,18 +11,36 @@ from google.oauth2 import id_token
            try:
                request = requests.Request()
                idinfo = id_token.verify_oauth2_token(
-                   token, 
 
-                   request, 
+
+
+                   token,
+                   request,
                    self.client_id
                )
+               
                if idinfo['aud'] != self.client_id:
                    return None
+                   
                return idinfo
            except ValueError:
-               return None
-   
+
+               return None   
        async def refresh_token(self, refresh_token: str) -> Optional[str]:
+try:
+               response = requests.post(
+                   'https://oauth2.googleapis.com/token',
+                   data={
+                       'client_id': self.client_id,
+                       'client_secret': self.client_secret,
+                       'refresh_token': refresh_token,
+                       'grant_type': 'refresh_token'
+                   }
+               )
+               
+               return response.json().get('access_token') if response.status_code == 200 else None
+           except Exception:
+               return None
 
 
            try:
