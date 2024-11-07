@@ -9,11 +9,15 @@ from google.oauth2 import id_token
    
        async def validate_token(self, token: str) -> Optional[dict]:
            try:
+               request = requests.Request()
                idinfo = id_token.verify_oauth2_token(
                    token, 
-                   requests.Request(), 
+
+                   request, 
                    self.client_id
                )
+               if idinfo['aud'] != self.client_id:
+                   return None
                return idinfo
            except ValueError:
                return None
