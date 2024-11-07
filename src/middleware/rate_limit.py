@@ -4,10 +4,10 @@ from fastapi.responses import JSONResponse
 from time import timefrom dataclasses import dataclass
 from typing import Dict, List
 @dataclass
+@dataclass
 class RateLimitConfig:
     requests_per_minute: int = 60
     window_seconds: int = 60
-
 class RateLimiter:
     def __init__(self, config: RateLimitConfig = RateLimitConfig()):
         self.requests: Dict[str, List[float]] = {}
