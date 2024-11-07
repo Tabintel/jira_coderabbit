@@ -1,0 +1,5 @@
+version: 1
+knowledge_base:
+  jira:
+    project_keys:
+      - ECA
