@@ -2,4 +2,4 @@ version: 1
 knowledge_base:
   jira:
     project_keys:
-      - ECA # the project key
+      - ECA # the JIRA project key
