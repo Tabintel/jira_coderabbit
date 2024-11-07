@@ -18,3 +18,30 @@ class RateLimiter:
             )
         
         return await call_next(request)
+def _is_rate_limited(self, client_ip: str, timestamp: float) -> bool:
+        # Clean up old requests
+        self._cleanup_old_requests(timestamp)
+        
+        # Get or initialize client's request history
+        client_requests = self.requests.get(client_ip, [])
+        
+        # Add current request timestamp
+        client_requests.append(timestamp)
+        self.requests[client_ip] = client_requests
+        
+        # Check if request count exceeds limit
+        return len(client_requests) > self.limit
+    
+    def _cleanup_old_requests(self, current_timestamp: float) -> None:
+        # Remove requests older than 1 minute
+        cutoff = current_timestamp - 60
+        
+        for ip in list(self.requests.keys()):
+            self.requests[ip] = [
+                ts for ts in self.requests[ip] 
+                if ts > cutoff
+            ]
+            
+            # Remove empty entries
+            if not self.requests[ip]:
+                del self.requests[ip]

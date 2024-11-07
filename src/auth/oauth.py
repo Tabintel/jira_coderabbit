@@ -19,5 +19,23 @@ from google.oauth2 import id_token
                return None
    
        async def refresh_token(self, refresh_token: str) -> Optional[str]:
-           # Token refresh implementation
-           pass
+
+
+           try:
+               # Make request to Google OAuth2 token endpoint
+               response = requests.post(
+                   'https://oauth2.googleapis.com/token',
+                   data={
+                       'client_id': self.client_id,
+                       'client_secret': self.client_secret,
+                       'refresh_token': refresh_token,
+                       'grant_type': 'refresh_token'
+                   }
+               )
+               
+               if response.status_code == 200:
+                   return response.json().get('access_token')
+               return None
+           except Exception:
+               return None       
+       

@@ -1,4 +1,3 @@
-yaml:.coderabbit.yaml
 version: 1
 knowledge_base:
   jira:
